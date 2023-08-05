@@ -17,7 +17,7 @@ public class CurrencyDao {
         this.sqLiteConnection = SQLiteConnection.INSTANCE;
     }
 
-    List<Currency> findAll() throws SQLException {
+    public List<Currency> findAll() throws SQLException {
 
         List<Currency> currencies = new ArrayList<>();
         Connection connection = sqLiteConnection.getConnection();

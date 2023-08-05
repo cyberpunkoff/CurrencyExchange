@@ -11,15 +11,16 @@ public class SQLiteConnection {
     static {
         try {
             INSTANCE = new SQLiteConnection();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
     private final Connection connection;
 
-    private SQLiteConnection() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:sqlite:CurrencyExchange.db");
+    private SQLiteConnection() throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        connection = DriverManager.getConnection("jdbc:sqlite:C:/Users/Vasilii/Desktop/CurrencyExchange/CurrencyExchange.db");
         // creating connection there...
     }
 
