@@ -21,8 +21,6 @@ public class CurrenciesServlet extends HttpServlet {
     private final CurrencyDao currencyDao = new CurrencyDao();
     private Gson gson = new Gson();
 
-
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
 
