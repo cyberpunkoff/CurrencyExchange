@@ -13,32 +13,37 @@ import ru.cyberpunkoff.currencyexchange.model.Currency;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 
-@WebServlet(name = "currenciesServlet", value = "/currencies")
-public class CurrenciesServlet extends HttpServlet {
-
-
+@WebServlet(urlPatterns = "/currency/*")
+public class CurrencyServlet extends HttpServlet {
     private final CurrencyDao currencyDao = new CurrencyDaoImpl();
     private Gson gson = new Gson();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String pathInfo = request.getPathInfo();
 
-        //Currency currency1 = new Currency(228, "RUB", "Russian Rouble", "R");
-        //Currency currency2 = new Currency(1337, "USD", "American Dollar", "S");
-        //Currency currency3 = new Currency(6969, "EUR", "Euro", "E");
-        //List<Currency> currencyList = List.of(currency1, currency2, currency3);
-
-        List<Currency> currencyList = null;
-        try {
-            currencyList = currencyDao.findAll();
-        } catch (SQLException e) {
-            //throw new RuntimeException(e);
-            response.setStatus(500);
+        System.out.println(pathInfo);
+        if (!pathInfo.matches("^/[A-Z]{3}$")) {
+            response.sendError(400);
         }
 
-        String jsonString = this.gson.toJson(currencyList);
+
+        String[] parts = pathInfo.split("/");
+        String currencyCode = parts[1];
+
+        Currency currency = null;
+        try {
+            currency = currencyDao.findByCode(currencyCode);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (currency == null) {
+            response.sendError(404);
+        }
+
+        String jsonString = this.gson.toJson(currency);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
