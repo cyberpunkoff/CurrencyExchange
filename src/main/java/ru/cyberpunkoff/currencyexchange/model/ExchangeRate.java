@@ -2,17 +2,17 @@ package ru.cyberpunkoff.currencyexchange.model;
 
 public class ExchangeRate {
     private Integer id;
-    private Integer base_currency_id;
-    private Integer target_currency_id;
+    private Currency baseCurrency;
+    private Currency targetCurrency;
     private Double rate;
 
     public ExchangeRate() {
     }
 
-    public ExchangeRate(Integer id, Integer base_currency_id, Integer target_currency_id, Double rate) {
+    public ExchangeRate(Integer id, Currency baseCurrency, Currency targetCurrency, Double rate) {
         this.id = id;
-        this.base_currency_id = base_currency_id;
-        this.target_currency_id = target_currency_id;
+        this.baseCurrency = baseCurrency;
+        this.targetCurrency = targetCurrency;
         this.rate = rate;
     }
 
@@ -24,20 +24,20 @@ public class ExchangeRate {
         this.id = id;
     }
 
-    public Integer getBase_currency_id() {
-        return base_currency_id;
+    public Currency getBaseCurrency() {
+        return baseCurrency;
     }
 
-    public void setBase_currency_id(Integer base_currency_id) {
-        this.base_currency_id = base_currency_id;
+    public void setBaseCurrency(Currency baseCurrency) {
+        this.baseCurrency = baseCurrency;
     }
 
-    public Integer getTarget_currency_id() {
-        return target_currency_id;
+    public Currency getTargetCurrency() {
+        return targetCurrency;
     }
 
-    public void setTarget_currency_id(Integer target_currency_id) {
-        this.target_currency_id = target_currency_id;
+    public void setTargetCurrency(Currency targetCurrency) {
+        this.targetCurrency = targetCurrency;
     }
 
     public Double getRate() {

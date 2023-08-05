@@ -8,48 +8,32 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.cyberpunkoff.currencyexchange.dao.CurrencyDao;
 import ru.cyberpunkoff.currencyexchange.dao.CurrencyDaoImpl;
+import ru.cyberpunkoff.currencyexchange.dao.ExchangeRateDao;
+import ru.cyberpunkoff.currencyexchange.dao.ExchangeRateDaoImpl;
 import ru.cyberpunkoff.currencyexchange.model.Currency;
+import ru.cyberpunkoff.currencyexchange.model.ExchangeRate;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 
-import static ru.cyberpunkoff.currencyexchange.servlet.ErrorMessageSender.*;
-
-@WebServlet(urlPatterns = "/currency/*")
-public class CurrencyServlet extends HttpServlet {
-    private final CurrencyDao currencyDao = new CurrencyDaoImpl();
+@WebServlet("/exchangeRates")
+public class ExchangeRatesServlet extends HttpServlet {
+    private final ExchangeRateDao exchangeRate = new ExchangeRateDaoImpl();
     private final Gson gson = new Gson();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String pathInfo = request.getPathInfo();
-
-        System.out.println(pathInfo);
-        if (pathInfo == null || !pathInfo.matches("^/[A-Z]{3}$")) {
-            sendError(response, 400, "Requested url is incorrect. Should be /currency/***");
-            return;
-        }
-
-
-        String[] parts = pathInfo.split("/");
-        String currencyCode = parts[1];
-
-        Currency currency = null;
+        List<ExchangeRate> exchangeRates = null;
         try {
-            currency = currencyDao.findByCode(currencyCode);
+            exchangeRates = exchangeRate.findAll();
         } catch (SQLException e) {
-            // sending error there
-            sendError(response, 500, "Database error");
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+            response.setStatus(500);
         }
 
-        if (currency == null) {
-            sendError(response, 404, "Currency not found");
-            return;
-        }
-
-        String jsonString = this.gson.toJson(currency);
+        String jsonString = this.gson.toJson(exchangeRates);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
