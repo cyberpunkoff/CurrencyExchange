@@ -16,7 +16,7 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
                 "tc.id tc_id, tc.full_name tc_name, tc.code tc_code, tc.sign tc_sign from exchange_rate INNER JOIN  " +
                 "currency bc ON base_currency_id = bc.id INNER JOIN currency tc ON target_currency_id = tc.id";
 
-        try (Connection connection = DataSourceSQLite.getDataSource().getConnection();
+        try (Connection connection = DataSourceSqlite.getDataSource().getConnection();
              ResultSet rs = connection.createStatement().executeQuery(sql)) {
             List<ExchangeRate> exchangeRates = new ArrayList<>();
             while (rs.next()) {
@@ -33,7 +33,7 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
                 "currency bc ON base_currency_id = bc.id INNER JOIN currency tc ON target_currency_id = tc.id WHERE " +
                 "bc_code = ? AND tc_code = ?";
 
-        try (Connection connection = DataSourceSQLite.getDataSource().getConnection();
+        try (Connection connection = DataSourceSqlite.getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, exchangeRateDto.getBaseCurrencyCode());
             ps.setString(2, exchangeRateDto.getTargetCurrencyCode());
@@ -52,7 +52,7 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
                 "currency bc ON base_currency_id = bc.id INNER JOIN currency tc ON target_currency_id = tc.id WHERE " +
                 "exchange_rate.id = ?";
 
-        try (Connection connection = DataSourceSQLite.getDataSource().getConnection();
+        try (Connection connection = DataSourceSqlite.getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery(); // maybe I should close result set as well
@@ -68,7 +68,7 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
         String sql = "insert into exchange_rate (base_currency_id, target_currency_id, rate) values " +
                 "((select id from currency where code = ?), (select id from currency where code = ?), ?)";
 
-        try (Connection connection = DataSourceSQLite.getDataSource().getConnection();
+        try (Connection connection = DataSourceSqlite.getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, exchangeRateDto.getBaseCurrencyCode());
             ps.setString(2, exchangeRateDto.getTargetCurrencyCode());

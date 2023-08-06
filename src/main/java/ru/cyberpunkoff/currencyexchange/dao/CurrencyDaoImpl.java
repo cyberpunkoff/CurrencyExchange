@@ -11,7 +11,7 @@ public class CurrencyDaoImpl implements CurrencyDao {
     public List<Currency> findAll() throws SQLException {
         String sql = "SELECT id, code, full_name, sign from currency";
 
-        try (Connection connection = DataSourceSQLite.getDataSource().getConnection();
+        try (Connection connection = DataSourceSqlite.getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet resultSet = ps.executeQuery()) {
             List<Currency> currencies = new ArrayList<>();
@@ -26,7 +26,7 @@ public class CurrencyDaoImpl implements CurrencyDao {
     public int insertCurrency(Currency currency) throws SQLException {
         String sql = "INSERT INTO currency (code, full_name, sign) VALUES (?, ?, ?)";
 
-        try (Connection connection = DataSourceSQLite.getDataSource().getConnection();
+        try (Connection connection = DataSourceSqlite.getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, currency.getCode());
             ps.setString(2, currency.getName());
@@ -49,7 +49,7 @@ public class CurrencyDaoImpl implements CurrencyDao {
     public Currency findByCode(String code) throws SQLException {
         String sql = "SELECT * FROM currency WHERE code = ?";
 
-        try (Connection connection = DataSourceSQLite.getDataSource().getConnection();
+        try (Connection connection = DataSourceSqlite.getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, code);
             ResultSet resultSet = ps.executeQuery(); // maybe I should close result set there

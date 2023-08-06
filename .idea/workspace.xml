@@ -9,17 +9,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="acc8b4fc-d654-44a1-b756-37e67b955142" name="Changes" comment="Implementing ExchangeRate endpoint">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+    <list default="true" id="acc8b4fc-d654-44a1-b756-37e67b955142" name="Changes" comment="Implemented post exchangeRate functionality &amp; try-with-resource safe close connections">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dto/ExchangeRequestDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/model/ExchangeResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/service/ExchangeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/CurrencyDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/CurrencyDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/ExchangeRateDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/ExchangeRateDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/DataSourceSQLite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/DataSourceSqlite.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/ExchangeRateDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/ExchangeRateDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/model/CurrencyPair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dto/ExchangeRateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/model/ExchangeRate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/model/ExchangeRate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ExchangeRateServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ExchangeRateServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ExchangeRatesServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ExchangeRatesServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/CurrencyExchange.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CurrencyExchange.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ExchangeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ExchangeServlet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +186,7 @@
       <updated>1691182522120</updated>
       <workItem from="1691182523142" duration="3630000" />
       <workItem from="1691186179145" duration="1866000" />
-      <workItem from="1691225341077" duration="36444000" />
+      <workItem from="1691225341077" duration="38281000" />
     </task>
     <task id="LOCAL-00001" summary="Created base project structure">
       <option name="closed" value="true" />
@@ -230,7 +228,15 @@
       <option name="project" value="LOCAL" />
       <updated>1691316804411</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Implemented post exchangeRate functionality &amp; try-with-resource safe close connections">
+      <option name="closed" value="true" />
+      <created>1691336254755</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1691336254756</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -242,6 +248,7 @@
     <MESSAGE value="Implemented currency endpoint get method" />
     <MESSAGE value="Created error class" />
     <MESSAGE value="Implementing ExchangeRate endpoint" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementing ExchangeRate endpoint" />
+    <MESSAGE value="Implemented post exchangeRate functionality &amp; try-with-resource safe close connections" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented post exchangeRate functionality &amp; try-with-resource safe close connections" />
   </component>
 </project>
