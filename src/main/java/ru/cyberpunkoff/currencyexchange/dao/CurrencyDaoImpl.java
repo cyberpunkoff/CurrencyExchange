@@ -8,39 +8,35 @@ import java.util.List;
 
 public class CurrencyDaoImpl implements CurrencyDao {
 
-    /*private final SQLiteConnection sqLiteConnection;
-
-    public CurrencyDaoImpl() {
-        this.sqLiteConnection = SQLiteConnection.INSTANCE;
-    }*/
-
     public List<Currency> findAll() throws SQLException {
-
         String sql = "SELECT id, code, full_name, sign from currency";
-        List<Currency> currencies = new ArrayList<>();
 
-        Connection connection = DataSourceSQLite.getDataSource().getConnection();
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ResultSet resultSet = ps.executeQuery();
-        while (resultSet.next()) {
-            currencies.add(parseCurrencyFromResult(resultSet));
+        try (Connection connection = DataSourceSQLite.getDataSource().getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet resultSet = ps.executeQuery()) {
+            List<Currency> currencies = new ArrayList<>();
+            while (resultSet.next()) {
+                currencies.add(parseCurrencyFromResult(resultSet));
+            }
+            return currencies;
         }
-
-        return currencies;
     }
 
     @Override
     public int insertCurrency(Currency currency) throws SQLException {
         String sql = "INSERT INTO currency (code, full_name, sign) VALUES (?, ?, ?)";
-        Connection connection = DataSourceSQLite.getDataSource().getConnection();
-        PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        ps.setString(1, currency.getCode());
-        ps.setString(2, currency.getName());
-        ps.setString(3, currency.getSign());
-        ps.executeUpdate();
-        try (ResultSet rs = ps.getGeneratedKeys()) {
-            rs.next();
-            return rs.getInt(1);
+
+        try (Connection connection = DataSourceSQLite.getDataSource().getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, currency.getCode());
+            ps.setString(2, currency.getName());
+            ps.setString(3, currency.getSign());
+            ps.executeUpdate();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                // maybe I should close result set as well
+                rs.next();
+                return rs.getInt(1);
+            }
         }
     }
 
@@ -51,17 +47,17 @@ public class CurrencyDaoImpl implements CurrencyDao {
 
     @Override
     public Currency findByCode(String code) throws SQLException {
-
-
         String sql = "SELECT * FROM currency WHERE code = ?";
-        Connection connection = DataSourceSQLite.getDataSource().getConnection();
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1, code);
-        ResultSet resultSet = ps.executeQuery();
-        if (!resultSet.next()) {
+
+        try (Connection connection = DataSourceSQLite.getDataSource().getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, code);
+            ResultSet resultSet = ps.executeQuery(); // maybe I should close result set there
+            if (resultSet.next()) {
+                return parseCurrencyFromResult(resultSet);
+            }
             return null;
         }
-        return parseCurrencyFromResult(resultSet);
     }
 
     @Override
@@ -70,28 +66,11 @@ public class CurrencyDaoImpl implements CurrencyDao {
     }
 
     private Currency parseCurrencyFromResult(ResultSet resultSet) throws SQLException {
-
         Currency currency = new Currency();
         currency.setId(resultSet.getInt("id"));
         currency.setCode(resultSet.getString("code"));
         currency.setName(resultSet.getString("full_name"));
         currency.setSign(resultSet.getString("sign"));
-
         return currency;
     }
-
-    enum SQLTask {
-        //INSERT_GOAL("INSERT INTO goals (name, description) VALUES ((?), (?))"),
-        //GET_GOAL_BY_ID("SELECT  goals.id, goals.name , goals.description from goals where id = (?)"),
-        //DELETE_GOAL_BY_ID("DELETE from goals where id=(?)"),
-        //UPDATE_GOAL_BY_ID("UPDATE goals set name=(?), description=(?) where id=(?)"),
-        GET_ALL_CURRENCIES("SELECT id, code, full_name, sign from currency");
-
-        final String QUERY;
-
-        SQLTask(String QUERY) {
-            this.QUERY = QUERY;
-        }
-    }
-
 }

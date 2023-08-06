@@ -1,37 +1,75 @@
 package ru.cyberpunkoff.currencyexchange.servlet;
 
+import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-import ru.cyberpunkoff.currencyexchange.model.Currency;
-import ru.cyberpunkoff.currencyexchange.model.CurrencyPair;
+import ru.cyberpunkoff.currencyexchange.dao.ExchangeRateDao;
+import ru.cyberpunkoff.currencyexchange.dao.ExchangeRateDaoImpl;
+import ru.cyberpunkoff.currencyexchange.dto.ExchangeRateDto;
+import ru.cyberpunkoff.currencyexchange.model.ExchangeRate;
 
 import java.io.IOException;
-import java.text.ParseException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+
+import static ru.cyberpunkoff.currencyexchange.servlet.ErrorMessageSender.sendError;
 
 @WebServlet(urlPatterns = "/exchangeRate/*")
 public class ExchangeRateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ExchangeRateDao exchangeRateDao = new ExchangeRateDaoImpl();
 
+        String urlPath = req.getPathInfo();
 
+        ExchangeRateDto exchangeRateDto;
+
+        try {
+            exchangeRateDto = parseCurrenciesFromUrl(urlPath);
+        } catch (IllegalArgumentException exception) {
+            sendError(resp, 400, "Currency codes not found");
+            return;
+        }
+
+        ExchangeRate exchangeRate;
+
+        try {
+             exchangeRate = exchangeRateDao.findByCurrencyPair(exchangeRateDto);
+        } catch (SQLException exception) {
+            sendError(resp, 500, "Database error");
+            return;
+        }
+
+        if (exchangeRate == null) {
+            sendError(resp, 404, "Exchange rate not found");
+            return;
+        }
+
+        String jsonString = new Gson().toJson(exchangeRate);
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        out.print(jsonString);
+        out.flush();
     }
 
-    private CurrencyPair parseCurrenciesFromUrl(String url) throws IOException {
-        if (!url.matches("^/[A-Z]{6}$")) {
+
+
+    private ExchangeRateDto parseCurrenciesFromUrl(String url) throws IOException {
+        if (url == null || !url.matches("^/[A-Z]{6}$")) {
             throw new IllegalArgumentException();
         }
 
-        CurrencyPair currencyPair = new CurrencyPair();
+        ExchangeRateDto exchangeRateDto = new ExchangeRateDto();
         String currencies = url.split("/")[1];
 
-        currencyPair.setBaseCurrencyCode(currencies.substring(0, 2));
-        currencyPair.setTargetCurrencyCode(currencies.substring(3));
+        exchangeRateDto.setBaseCurrencyCode(currencies.substring(0, 3));
+        exchangeRateDto.setTargetCurrencyCode(currencies.substring(3));
 
-        return currencyPair;
+        System.out.println(exchangeRateDto);
+        return exchangeRateDto;
     }
 }

@@ -47,4 +47,14 @@ public class ExchangeRate {
     public void setRate(Double rate) {
         this.rate = rate;
     }
+
+    @Override
+    public String toString() {
+        return "ExchangeRate{" +
+                "id=" + id +
+                ", baseCurrency=" + baseCurrency +
+                ", targetCurrency=" + targetCurrency +
+                ", rate=" + rate +
+                '}';
+    }
 }

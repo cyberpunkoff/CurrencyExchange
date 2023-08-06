@@ -20,6 +20,8 @@ public class ErrorMessageSender {
     }
 
     public static void sendError(HttpServletResponse response, int errorCode, String message) throws IOException {
+        //TODO: find better way of sending errors to client
+
         String jsonString = new Gson().toJson(new Message(message));
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
