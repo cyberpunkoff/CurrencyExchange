@@ -9,16 +9,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="acc8b4fc-d654-44a1-b756-37e67b955142" name="Changes" comment="Implemented currency endpoint get method">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/ExchangeRateDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/model/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ErrorMessageSender.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ExchangeRatesServlet.java" afterDir="false" />
+    <list default="true" id="acc8b4fc-d654-44a1-b756-37e67b955142" name="Changes" comment="Created error class">
+      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/model/CurrencyPair.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ExchangeRateServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CurrencyExchange.db" beforeDir="false" afterPath="$PROJECT_DIR$/CurrencyExchange.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CurrencyExchange.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CurrencyExchange.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/HelloServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/CurrencyDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/CurrencyDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/CurrencyDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/CurrencyDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/DataSourceSQLite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/DataSourceSQLite.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/ExchangeRateDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/ExchangeRateDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/model/ExchangeRate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/model/ExchangeRate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/CurrencyServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/CurrencyServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/SQLiteConnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/CurrenciesServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/CurrenciesServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,6 +85,12 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Vasilii\Documents\Programming\Java\CurrencyExchange\src\main\resources" />
+      <recent name="C:\Users\Vasilii\Documents\Programming\Java\CurrencyExchange\src\main\webapp\WEB-INF" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Tomcat 10.1.11" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.11" ALTERNATIVE_JRE_ENABLED="false">
       <option name="OPEN_IN_BROWSER" value="false" />
@@ -181,7 +192,7 @@
       <updated>1691182522120</updated>
       <workItem from="1691182523142" duration="3630000" />
       <workItem from="1691186179145" duration="1866000" />
-      <workItem from="1691225341077" duration="15663000" />
+      <workItem from="1691225341077" duration="23446000" />
     </task>
     <task id="LOCAL-00001" summary="Created base project structure">
       <option name="closed" value="true" />
@@ -207,7 +218,15 @@
       <option name="project" value="LOCAL" />
       <updated>1691265726900</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Created error class">
+      <option name="closed" value="true" />
+      <created>1691272289195</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1691272289195</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,6 +236,7 @@
     <MESSAGE value="Created base project structure" />
     <MESSAGE value="Add ExchangeRate model" />
     <MESSAGE value="Implemented currency endpoint get method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented currency endpoint get method" />
+    <MESSAGE value="Created error class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created error class" />
   </component>
 </project>

@@ -5,7 +5,7 @@ import org.sqlite.SQLiteDataSource;
 import javax.sql.DataSource;
 
 public class DataSourceSQLite {
-    final static String URL = "jdbc:sqlite:C:/Users/Vasilii/Documents/Programming/Java/CurrencyExchange/CurrencyExchange.db";
+    final static String URL = "jdbc:sqlite::resource:CurrencyExchange.db";
 
     private static final SQLiteDataSource dataSource;
 

@@ -2,10 +2,7 @@ package ru.cyberpunkoff.currencyexchange.dao;
 
 import ru.cyberpunkoff.currencyexchange.model.Currency;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +30,18 @@ public class CurrencyDaoImpl implements CurrencyDao {
     }
 
     @Override
-    public long insertCurrency(Currency currency) throws SQLException {
-        return 0;
+    public int insertCurrency(Currency currency) throws SQLException {
+        String sql = "INSERT INTO currency (code, full_name, sign) VALUES (?, ?, ?)";
+        Connection connection = DataSourceSQLite.getDataSource().getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, currency.getCode());
+        ps.setString(2, currency.getName());
+        ps.setString(3, currency.getSign());
+        ps.executeUpdate();
+        try (ResultSet rs = ps.getGeneratedKeys()) {
+            rs.next();
+            return rs.getInt(1);
+        }
     }
 
     @Override

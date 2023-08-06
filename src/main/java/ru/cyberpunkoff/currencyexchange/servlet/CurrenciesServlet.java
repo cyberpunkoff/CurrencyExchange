@@ -15,12 +15,13 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
+import static ru.cyberpunkoff.currencyexchange.servlet.ErrorMessageSender.sendError;
+
 @WebServlet(name = "currenciesServlet", value = "/currencies")
 public class CurrenciesServlet extends HttpServlet {
 
 
-    private final CurrencyDao currencyDao = new CurrencyDaoImpl();
-    private Gson gson = new Gson();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
@@ -30,6 +31,8 @@ public class CurrenciesServlet extends HttpServlet {
         //Currency currency3 = new Currency(6969, "EUR", "Euro", "E");
         //List<Currency> currencyList = List.of(currency1, currency2, currency3);
 
+        CurrencyDao currencyDao = new CurrencyDaoImpl();
+
         List<Currency> currencyList = null;
         try {
             currencyList = currencyDao.findAll();
@@ -38,11 +41,68 @@ public class CurrenciesServlet extends HttpServlet {
             response.setStatus(500);
         }
 
-        String jsonString = this.gson.toJson(currencyList);
+        String jsonString = new Gson().toJson(currencyList);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         out.print(jsonString);
         out.flush();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        CurrencyDao currencyDao = new CurrencyDaoImpl();
+
+        String name = req.getParameter("name");
+        String code = req.getParameter("code");
+        String sign  = req.getParameter("sign");
+
+        if (name == null) {
+            sendError(resp, 400, "Name field missing");
+            return;
+        }
+        if (code == null) {
+            sendError(resp, 400, "Code field missing");
+            return;
+        }
+        if (sign == null) {
+            sendError(resp, 400, "Sign field missing");
+            return;
+        }
+
+        Currency currency = new Currency();
+        currency.setName(name);
+        currency.setCode(code);
+        currency.setSign(sign);
+
+        try {
+            if (currencyDao.findByCode(code) != null) {
+                sendError(resp, 409, "Currency exists");
+                return;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            sendError(resp, 400, "Database error");
+            return;
+        }
+
+        try {
+            int id = currencyDao.insertCurrency(currency);
+            currency.setId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            sendError(resp, 400, "Database error");
+            return;
+        }
+
+        String jsonString = new Gson().toJson(currency);
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        out.print(jsonString);
+        out.flush();
+
+
     }
 }
