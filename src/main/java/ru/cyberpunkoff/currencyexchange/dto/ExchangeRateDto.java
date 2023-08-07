@@ -8,6 +8,11 @@ public class ExchangeRateDto {
     public ExchangeRateDto() {
     }
 
+    public ExchangeRateDto(String baseCurrencyCode, String targetCurrencyCode) {
+        this.baseCurrencyCode = baseCurrencyCode;
+        this.targetCurrencyCode = targetCurrencyCode;
+    }
+
     public String getBaseCurrencyCode() {
         return baseCurrencyCode;
     }

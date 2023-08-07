@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExchangeRateDaoImpl implements ExchangeRateDao {
-
     @Override
     public List<ExchangeRate> findAll() throws SQLException {
         String sql = "SELECT exchange_rate.id, exchange_rate.rate, bc.id bc_id, bc.full_name bc_name, bc.code bc_code, bc.sign bc_sign, " +
@@ -37,12 +36,29 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, exchangeRateDto.getBaseCurrencyCode());
             ps.setString(2, exchangeRateDto.getTargetCurrencyCode());
-            ResultSet resultSet = ps.executeQuery(); // close result set as well?
-            if (resultSet.next()) {
-                return parseExchangeRateFromResult(resultSet);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    return parseExchangeRateFromResult(resultSet);
+                }
             }
             return null;
         }
+    }
+
+    @Override
+    public ExchangeRate updateExchangeRate(ExchangeRateDto exchangeRateDto) throws SQLException {
+        String sql = "UPDATE exchange_rate SET rate = ? WHERE id = ?";
+        ExchangeRate exchangeRate = findByCurrencyPair(exchangeRateDto);
+        if (exchangeRate == null) {
+            return null;
+        }
+        try (Connection connection = DataSourceSqlite.getDataSource().getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setDouble(1, exchangeRateDto.getRate());
+            ps.setInt(2, exchangeRate.getId());
+            ps.executeUpdate();
+        }
+        return findByCurrencyPair(exchangeRateDto);
     }
 
     @Override
@@ -55,9 +71,10 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
         try (Connection connection = DataSourceSqlite.getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
-            ResultSet resultSet = ps.executeQuery(); // maybe I should close result set as well
-            if (resultSet.next()) {
-                return parseExchangeRateFromResult(resultSet);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    return parseExchangeRateFromResult(resultSet);
+                }
             }
             return null;
         }
@@ -74,8 +91,9 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
             ps.setString(2, exchangeRateDto.getTargetCurrencyCode());
             ps.setDouble(3, exchangeRateDto.getRate());
             ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys(); // Maybe I should close result set there as well (try-with-resource)
-            return rs.getInt(1);
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                return rs.getInt(1);
+            }
         }
     }
 

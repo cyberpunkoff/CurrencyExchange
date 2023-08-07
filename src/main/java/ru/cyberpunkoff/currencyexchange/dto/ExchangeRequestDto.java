@@ -8,6 +8,12 @@ public class ExchangeRequestDto {
     public ExchangeRequestDto() {
     }
 
+    public ExchangeRequestDto(String baseCurrencyCode, String targetCurrencyCode, double amount) {
+        this.baseCurrencyCode = baseCurrencyCode;
+        this.targetCurrencyCode = targetCurrencyCode;
+        this.amount = amount;
+    }
+
     public String getBaseCurrencyCode() {
         return baseCurrencyCode;
     }

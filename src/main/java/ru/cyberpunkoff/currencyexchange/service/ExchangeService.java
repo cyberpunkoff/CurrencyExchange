@@ -12,54 +12,17 @@ import ru.cyberpunkoff.currencyexchange.model.ExchangeResponse;
 import java.sql.SQLException;
 
 public class ExchangeService {
-    ExchangeRateDao exchangeRateDao = new ExchangeRateDaoImpl();
-    CurrencyDao currencyDao = new CurrencyDaoImpl();
+    private final ExchangeRateDao exchangeRateDao = new ExchangeRateDaoImpl();
+    private final CurrencyDao currencyDao = new CurrencyDaoImpl();
 
     public ExchangeResponse exchange(ExchangeRequestDto exchangeRequestDto) throws SQLException {
-        ExchangeRate exchangeRate;
-
-        // Case: requested exchange rate exists
         ExchangeRateDto exchangeRateDto = new ExchangeRateDto();
         exchangeRateDto.setBaseCurrencyCode(exchangeRequestDto.getBaseCurrencyCode());
         exchangeRateDto.setTargetCurrencyCode(exchangeRequestDto.getTargetCurrencyCode());
-        exchangeRate = exchangeRateDao.findByCurrencyPair(exchangeRateDto);
-
-        // Case: requested exchange rate does not exist, but inverted does
+        ExchangeRate exchangeRate = findExchangeRate(exchangeRateDto);
         if (exchangeRate == null) {
-            exchangeRateDto.setBaseCurrencyCode(exchangeRequestDto.getTargetCurrencyCode());
-            exchangeRateDto.setTargetCurrencyCode(exchangeRequestDto.getBaseCurrencyCode());
-            exchangeRate = exchangeRateDao.findByCurrencyPair(exchangeRateDto);
-            if (exchangeRate != null) {
-                ExchangeRate tempExchangeRate = new ExchangeRate();
-                tempExchangeRate.setRate(1 / exchangeRate.getRate());
-                tempExchangeRate.setBaseCurrency(exchangeRate.getTargetCurrency());
-                tempExchangeRate.setTargetCurrency(exchangeRate.getBaseCurrency());
-                exchangeRate = tempExchangeRate;
-            }
+            return null;
         }
-
-        // Case: requested exchange rate does not exist but can covert through USD
-        if (exchangeRate == null) {
-            ExchangeRateDto exchangeRateToUsdDto = new ExchangeRateDto();
-            exchangeRateToUsdDto.setBaseCurrencyCode(exchangeRequestDto.getBaseCurrencyCode());
-            exchangeRateToUsdDto.setTargetCurrencyCode("USD");
-            ExchangeRate exchangeRateToUsd = exchangeRateDao.findByCurrencyPair(exchangeRateToUsdDto);
-
-            ExchangeRateDto exchangeRateFromUsdDto = new ExchangeRateDto();
-            exchangeRateFromUsdDto.setBaseCurrencyCode("USD");
-            exchangeRateFromUsdDto.setTargetCurrencyCode(exchangeRequestDto.getTargetCurrencyCode());
-            ExchangeRate exchangeRateFromUsd = exchangeRateDao.findByCurrencyPair(exchangeRateFromUsdDto);
-
-            if (exchangeRateFromUsd == null || exchangeRateToUsd == null) {
-                return null; // Not possible to convert
-            }
-
-            exchangeRate = new ExchangeRate();
-            exchangeRate.setBaseCurrency(currencyDao.findByCode(exchangeRequestDto.getBaseCurrencyCode()));
-            exchangeRate.setTargetCurrency(currencyDao.findByCode(exchangeRequestDto.getTargetCurrencyCode()));
-            exchangeRate.setRate(exchangeRateToUsd.getRate() * exchangeRateFromUsd.getRate());
-        }
-
         ExchangeResponse exchangeResponse = new ExchangeResponse();
         exchangeResponse.setAmount(exchangeRequestDto.getAmount());
         exchangeResponse.setBaseCurrency(exchangeRate.getBaseCurrency());
@@ -67,5 +30,54 @@ public class ExchangeService {
         exchangeResponse.setRate(exchangeRate.getRate());
         exchangeResponse.setConvertedAmount(exchangeRequestDto.getAmount() * exchangeRate.getRate());
         return exchangeResponse;
+    }
+
+    public ExchangeRate findExchangeRate(ExchangeRateDto exchangeRateDto) throws SQLException {
+        ExchangeRate exchangeRate;
+
+        // Case: requested exchange rate exists
+        System.out.println("Trying direct convert...");
+        exchangeRate = exchangeRateDao.findByCurrencyPair(exchangeRateDto);
+        if (exchangeRate != null) {
+            return exchangeRate;
+        }
+
+        // Case: requested exchange rate does not exist, but inverted does
+        System.out.println("Trying reverse convert...");
+        exchangeRate = exchangeRateDao.findByCurrencyPair(new ExchangeRateDto
+                (
+                        exchangeRateDto.getTargetCurrencyCode(),
+                        exchangeRateDto.getBaseCurrencyCode()
+                ));
+        if (exchangeRate != null) {
+            return new ExchangeRate(
+                    exchangeRate.getTargetCurrency(),
+                    exchangeRate.getBaseCurrency(),
+                    1 / exchangeRate.getRate()
+            );
+        }
+
+        if (exchangeRateDto.getBaseCurrencyCode().equals("USD") ||
+                exchangeRateDto.getTargetCurrencyCode().equals("USD")) {
+            return null;
+        }
+
+        // Case: requested exchange rate does not exist but can covert through USD
+        System.out.println("Trying USD convert...");
+        ExchangeRate exchangeRateToUsd = findExchangeRate(
+                new ExchangeRateDto(exchangeRateDto.getBaseCurrencyCode(), "USD")
+        );
+        ExchangeRate exchangeRateFromUsd = findExchangeRate(
+                new ExchangeRateDto("USD", exchangeRateDto.getTargetCurrencyCode())
+        );
+
+        if (exchangeRateFromUsd == null || exchangeRateToUsd == null) {
+            return null; // Not possible to convert
+        }
+        exchangeRate = new ExchangeRate();
+        exchangeRate.setBaseCurrency(currencyDao.findByCode(exchangeRateDto.getBaseCurrencyCode()));
+        exchangeRate.setTargetCurrency(currencyDao.findByCode(exchangeRateDto.getTargetCurrencyCode()));
+        exchangeRate.setRate(exchangeRateToUsd.getRate() * exchangeRateFromUsd.getRate());
+        return exchangeRate;
     }
 }

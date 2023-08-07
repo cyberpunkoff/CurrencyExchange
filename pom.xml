@@ -51,6 +51,12 @@
           <version>2.10.1</version>
       </dependency>
 
+      <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+          <version>32.1.2-jre</version>
+      </dependency>
+
       <!-- https://mvnrepository.com/artifact/jakarta.servlet.jsp/jakarta.servlet.jsp-api -->
       <dependency>
           <groupId>jakarta.servlet.jsp</groupId>

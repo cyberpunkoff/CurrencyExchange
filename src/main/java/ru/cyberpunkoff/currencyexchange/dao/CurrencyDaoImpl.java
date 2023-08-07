@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CurrencyDaoImpl implements CurrencyDao {
-
     public List<Currency> findAll() throws SQLException {
         String sql = "SELECT id, code, full_name, sign from currency";
-
         try (Connection connection = DataSourceSqlite.getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet resultSet = ps.executeQuery()) {
@@ -33,7 +31,6 @@ public class CurrencyDaoImpl implements CurrencyDao {
             ps.setString(3, currency.getSign());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
-                // maybe I should close result set as well
                 rs.next();
                 return rs.getInt(1);
             }
@@ -48,13 +45,13 @@ public class CurrencyDaoImpl implements CurrencyDao {
     @Override
     public Currency findByCode(String code) throws SQLException {
         String sql = "SELECT * FROM currency WHERE code = ?";
-
         try (Connection connection = DataSourceSqlite.getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, code);
-            ResultSet resultSet = ps.executeQuery(); // maybe I should close result set there
-            if (resultSet.next()) {
-                return parseCurrencyFromResult(resultSet);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    return parseCurrencyFromResult(resultSet);
+                }
             }
             return null;
         }

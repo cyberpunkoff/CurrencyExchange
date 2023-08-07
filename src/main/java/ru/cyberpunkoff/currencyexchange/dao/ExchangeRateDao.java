@@ -15,5 +15,5 @@ public interface ExchangeRateDao {
 
     int insertExchangeRate(ExchangeRateDto exchangeRate) throws SQLException;
 
-
+    ExchangeRate updateExchangeRate(ExchangeRateDto exchangeRateDto) throws SQLException;
 }

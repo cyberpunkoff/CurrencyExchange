@@ -9,10 +9,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="acc8b4fc-d654-44a1-b756-37e67b955142" name="Changes" comment="Implemented exchange endpoint functionality &amp; new error sending &amp; response rendering">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="acc8b4fc-d654-44a1-b756-37e67b955142" name="Changes" comment="Update gitignore">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/create.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/CurrencyDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/CurrencyDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/ExchangeRateDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/ExchangeRateDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/ExchangeRateDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dao/ExchangeRateDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dto/ExchangeRateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dto/ExchangeRateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dto/ExchangeRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/dto/ExchangeRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/model/ExchangeRate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/model/ExchangeRate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/model/ExchangeResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/model/ExchangeResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/service/ExchangeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/service/ExchangeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ExchangeRateServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ExchangeRateServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ExchangeRatesServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/cyberpunkoff/currencyexchange/servlet/ExchangeRatesServlet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +68,6 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
@@ -183,7 +191,7 @@
       <updated>1691182522120</updated>
       <workItem from="1691182523142" duration="3630000" />
       <workItem from="1691186179145" duration="1866000" />
-      <workItem from="1691225341077" duration="44777000" />
+      <workItem from="1691225341077" duration="54812000" />
     </task>
     <task id="LOCAL-00001" summary="Created base project structure">
       <option name="closed" value="true" />
@@ -249,7 +257,15 @@
       <option name="project" value="LOCAL" />
       <updated>1691415443400</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Update gitignore">
+      <option name="closed" value="true" />
+      <created>1691415646452</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1691415646452</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -264,6 +280,7 @@
     <MESSAGE value="Implemented post exchangeRate functionality &amp; try-with-resource safe close connections" />
     <MESSAGE value="Implemented basic exchange endpoint functionality" />
     <MESSAGE value="Implemented exchange endpoint functionality &amp; new error sending &amp; response rendering" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented exchange endpoint functionality &amp; new error sending &amp; response rendering" />
+    <MESSAGE value="Update gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update gitignore" />
   </component>
 </project>

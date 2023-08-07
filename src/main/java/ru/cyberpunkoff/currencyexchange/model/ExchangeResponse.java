@@ -1,6 +1,6 @@
 package ru.cyberpunkoff.currencyexchange.model;
 
-public class ExchangeResponse {
+public class ExchangeResponse { // TODO: convert to record
     private Currency baseCurrency;
     private Currency targetCurrency;
     private double rate;

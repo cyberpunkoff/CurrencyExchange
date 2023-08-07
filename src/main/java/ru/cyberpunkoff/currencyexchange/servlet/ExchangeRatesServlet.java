@@ -63,11 +63,11 @@ public class ExchangeRatesServlet extends HttpServlet {
             exchangeRateDto.setRate(Double.parseDouble(rate));
 
             if (currencyDao.findByCode(baseCurrencyCode) == null) {
-                resp.sendError(404, "Base currency code does not exist");
+                resp.sendError(409, "Base currency code does not exist");
                 return;
             }
-            if (currencyDao.findByCode(baseCurrencyCode) == null) {
-                resp.sendError(404, "Base currency code does not exist");
+            if (currencyDao.findByCode(targetCurrencyCode) == null) {
+                resp.sendError(409, "Target currency code does not exist");
                 return;
             }
 
