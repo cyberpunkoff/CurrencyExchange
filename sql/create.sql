@@ -11,5 +11,5 @@ CREATE TABLE ExchangeRate (
 	base_currency_id INTEGER REFERENCES currency (id),
 	target_currency_id INTEGER REFERENCES currency (id),
 	rate DECIMAL(6),
-	FOREIGN KEY (base_currency_id) REFERENCES currencies (id),
-	FOREIGN KEY (target_currency_id)  REFERENCES currencies (id) );
+	FOREIGN KEY (base_currency_id) REFERENCES currency (id),
+	FOREIGN KEY (target_currency_id)  REFERENCES currency (id) );
