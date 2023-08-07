@@ -24,6 +24,8 @@
       <version>5.0.0</version>
       <scope>provided</scope>
     </dependency>
+
+
       <!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
       <dependency>
           <groupId>org.xerial</groupId>
@@ -31,12 +33,15 @@
           <version>3.42.0.0</version>
       </dependency>
 
-      <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+
+
+      <!-- https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api -->
       <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-lang3</artifactId>
-          <version>3.13.0</version>
+          <groupId>jakarta.servlet.jsp.jstl</groupId>
+          <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+          <version>3.0.0</version>
       </dependency>
+
 
 
       <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
@@ -44,6 +49,14 @@
           <groupId>com.google.code.gson</groupId>
           <artifactId>gson</artifactId>
           <version>2.10.1</version>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/jakarta.servlet.jsp/jakarta.servlet.jsp-api -->
+      <dependency>
+          <groupId>jakarta.servlet.jsp</groupId>
+          <artifactId>jakarta.servlet.jsp-api</artifactId>
+          <version>3.1.1</version>
+          <scope>provided</scope>
       </dependency>
 
 

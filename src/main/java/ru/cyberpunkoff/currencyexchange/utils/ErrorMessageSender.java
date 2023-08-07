@@ -1,4 +1,4 @@
-package ru.cyberpunkoff.currencyexchange.servlet;
+package ru.cyberpunkoff.currencyexchange.utils;
 
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletResponse;

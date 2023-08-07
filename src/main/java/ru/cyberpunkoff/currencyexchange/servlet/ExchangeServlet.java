@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
+import static ru.cyberpunkoff.currencyexchange.utils.Renderer.renderResponse;
+
 @WebServlet("/exchange")
 public class ExchangeServlet extends HttpServlet {
     @Override
@@ -22,24 +24,33 @@ public class ExchangeServlet extends HttpServlet {
         String targetCurrencyCode = req.getParameter("to");
         String amount = req.getParameter("amount");
 
+        if (baseCurrencyCode == null) {
+            resp.sendError(400, "From parameter missing");
+            return;
+        }
+        if (targetCurrencyCode == null) {
+            resp.sendError(400, "To parameter missing");
+            return;
+        }
+        if (amount == null) {
+            resp.sendError(400, "Amount parameter missing");
+            return;
+        }
+
         ExchangeRequestDto exchangeRequestDto = new ExchangeRequestDto();
         exchangeRequestDto.setAmount(Double.parseDouble(amount));
         exchangeRequestDto.setTargetCurrencyCode(targetCurrencyCode);
         exchangeRequestDto.setBaseCurrencyCode(baseCurrencyCode);
 
-
         try {
             ExchangeResponse exchangeResponse = new ExchangeService().exchange(exchangeRequestDto);
-            // TODO: a lot of code is copied may be static method for sending response?
-            String jsonString = new Gson().toJson(exchangeResponse);
-            PrintWriter out = resp.getWriter();
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
-            out.print(jsonString);
-            out.flush();
+            if (exchangeResponse == null) {
+                resp.sendError(404, "No such exchange rate");
+                return;
+            }
+            renderResponse(resp, exchangeResponse);
         } catch (SQLException e) {
-            // TODO: data validation (not null parametrs)
-            throw new RuntimeException(e);
+            resp.sendError(500, "Database error");
         }
     }
 }
